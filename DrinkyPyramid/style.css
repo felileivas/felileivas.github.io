@@ -1,0 +1,158 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.page {
+    background-image: linear-gradient(rgb(21, 59, 22), rgb(38, 109, 42) 600px);
+    box-shadow:
+        0 0 0 10px #2c2c2c,    /* Borde externo más oscuro */
+        inset 0 0 20px rgba(0,0,0,0.5), /* Sombra interna para simular profundidad */
+        0 8px 20px rgba(0,0,0,0.6);    /* Sombra externa para dar elevación a la mesa */
+    border: 5px solid #2c2c2c;
+    border-radius: 50px;
+    color: var(--darkreader-text-ffffff, #e8e6e3);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20px;
+}
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+.controls {
+    margin-bottom: 20px;
+}
+.pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+.row {
+    display: flex;
+    justify-content: center;
+    margin-top: -45px;
+}
+/*
+.card {
+    width: 70px;
+    height: 100px;
+     background: url('./Cartas/Dorso/back.png') center/cover no-repeat;
+    margin: 0 5px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+}
+*/
+.card {
+    width: 90px;
+    height: 130px;
+    background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-position: center; /* Centra la imagen */
+    margin: 4px 15px;
+    border-radius: 5px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+    overflow: hidden; /* Asegura que el contenido no se salga */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.card img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+button {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.3s;
+}
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+button:hover:not(:disabled) {
+    background-color: #ff6347;
+}
+.log {
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+.log .highlight {
+    color: yellow;
+    font-weight: bold;
+}
+.player-hand {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.player-hand .card {
+    margin: 0 5px;
+    background: none;
+}
+
+.player-container {
+    overflow: hidden;
+    transition: max-height 0.5s ease; /* Animación suave */
+}
+
+.player-container.collapsed {
+    max-height: 0; /* Colapsa el contenedor */
+    padding: 0;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 0 5px;
+        box-sizing: border-box;
+    }
+    .card {
+        width: 40px;
+        height: 60px;
+        margin: 0px 2px;
+    }
+    button {
+        padding: 8px 10px;
+        font-size: 14px;
+        margin: 5px;
+    }
+    .row {
+        margin-top: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    h1, h2 {
+        font-size: 1em;
+    }
+}
+
