@@ -1,0 +1,242 @@
+/* General */
+body {
+    font-family: 'Orbitron','Raleway', sans-serif;
+    background: #f8f9fa;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 20px;
+}
+
+/* Estilo del botón en la barra de navegación */
+.navbar .btn-contacto {
+    background: linear-gradient(45deg, #0ff 0%, #03a9f4 100%);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.3);
+    height: 40px; /* Para alinearlo con otros elementos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+/* Efecto hover */
+.navbar .btn-contacto:hover {
+    background: linear-gradient(45deg, #03a9f4 0%, #0ff 100%);
+    transform: scale(1.05);
+    box-shadow: 0px 5px 15px rgba(0, 255, 255, 0.5);
+}
+
+
+/* Estilos del video de fondo */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+/* Video difuminado */
+.video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    filter: blur(6px); /* Difuminado para mejorar legibilidad */
+    z-index: -1;
+}
+
+/* Capa oscura con degradado */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);
+    z-index: 0;
+}
+
+/* Contenido encima del video */
+.content {
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Animación de aparición */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in forwards;
+}
+
+/* Encabezado con diseño futurista */
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Botón futurista */
+.btn-primary {
+    background: linear-gradient(45deg, #0ff 0%, #03a9f4 100%);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #03a9f4 0%, #0ff 100%);
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    background: #0d0d0d;
+    color: white;
+}
+
+.video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover; /* Ajusta el video para llenar la pantalla */
+    z-index: -1;
+}
+
+/* Capa semitransparente sobre el video */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Ajusta la opacidad según necesites */
+    z-index: 0;
+}
+
+/* Contenido encima del video */
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Animación de aparición */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Cards de Servicios */
+.card {
+    border: none;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 15px; /* Espaciado para mejorar visibilidad en móvil */
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+
+/* Footer */
+.footer {
+    background: #0d0d0d;
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.footer a {
+    color: #00c6ff;
+    font-weight: bold;
+}
+
+/* Botón flotante de contacto por correo */
+.contact-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #03a9f4, #0ff);
+    color: white;
+    font-size: 1.5rem;
+    padding: 15px;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0px 5px 10px rgba(0, 255, 255, 0.5);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ícono de sobre */
+.contact-float i {
+    font-size: 1.5rem;
+}
+
+/* Efecto al pasar el cursor */
+.contact-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem; /* Reducir tamaño del encabezado */
+        line-height: 2.5rem; /* Ajustar el espacio entre líneas */
+        text-align: center;
+    }
+
+    .hero .content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-float {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        padding: 10px;
+    }
+}
