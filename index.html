@@ -48,6 +48,9 @@
     <!-- FontAwesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -70,167 +73,354 @@
         }
         </script>
         
+    <!-- Estilos personalizados -->
+    <style>
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            z-index: -1;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+        .card-hover {
+            transition: transform 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+        }
+        @media (max-width: 768px) {
+            .hero {
+                height: 100vh;
+                min-height: 500px;
+            }
+        }
+
+        /* Estilos del Navbar */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        .menu-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+
+    <!-- Script para el navbar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.querySelector('.navbar');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const menuButton = document.querySelector('.menu-button');
+            const menuOverlay = document.querySelector('.menu-overlay');
+            const closeButton = document.querySelector('.close-button');
+
+            // Cambiar navbar al hacer scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Abrir menú móvil
+            menuButton.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Cerrar menú móvil
+            function closeMenu() {
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeButton.addEventListener('click', closeMenu);
+            menuOverlay.addEventListener('click', closeMenu);
+
+            // Cerrar menú al hacer click en un enlace
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+        });
+    </script>
 
 </head>
-<body>
+<body class="bg-gray-50">
+
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="images/068498cc590434cbdec4d94a96206b6c.png" alt="TICRAFT Logo" height="40">
-                TICRAFT
+    <nav class="w-full bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 shadow-lg">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <!-- Logo y nombre -->
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse group">
+                <img src="images/068498cc590434cbdec4d94a96206b6c.png" class="h-12 md:h-10 transition-transform duration-300 group-hover:scale-110" alt="TICRAFT Logo" />
+                <span class="self-center text-2xl md:text-2xl font-orbitron whitespace-nowrap text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 transition-all duration-300">TICRAFT</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+
+            <!-- Botón menú móvil -->
+            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-3 w-14 h-14 justify-center text-sm text-gray-100 rounded-lg md:hidden hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300" aria-controls="navbar-default" aria-expanded="false">
+                <span class="sr-only">Abrir menú principal</span>
+                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="blog/">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="mailto:contacto@ticraft.cl">Contáctanos</a></li>
+
+            <!-- Menú principal -->
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700/50 rounded-lg bg-gray-800/50 backdrop-blur-sm md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
+                    <li>
+                        <a href="#servicios" class="block py-4 px-4 text-gray-100 rounded-lg hover:bg-gray-700/50 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0 transition-all duration-300 relative group text-lg">
+                            <span class="relative z-10">Servicios</span>
+                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="blog/" class="block py-4 px-4 text-gray-100 rounded-lg hover:bg-gray-700/50 md:hover:bg-transparent md:border-0 md:hover:text-blue-400 md:p-0 transition-all duration-300 relative group text-lg">
+                            <span class="relative z-10">Blog</span>
+                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:contacto@ticraft.cl" class="block py-4 px-6 text-white bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 md:hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg font-semibold">
+                            Contáctanos
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+  
 
-    <header class="hero">
+    <header class="hero flex items-center justify-center text-center">
         <video class="video-bg" autoplay muted loop playsinline>
             <source src="https://videos.pexels.com/video-files/6962343/6962343-hd_1920_1080_25fps.mp4" type="video/mp4">
          </video>
 
         <div class="overlay"></div> <!-- Capa oscura para mejorar el contraste -->
-        <div class="container text-center content">
-            <h1 class="fade-in">Construyendo el Futuro con Tecnología</h1>
-            <p>Soluciones escalables en la nube y desarrollo de software de alta calidad.</p>
-            <a href="blog/" class="btn btn-lg btn-primary">Explora Nuestro Blog</a>
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h1 class="text-4xl md:text-5xl lg:text-7xl font-orbitron text-white mb-6 md:mb-8 animate-fade-in leading-tight">
+                Construyendo el Futuro con Tecnología
+            </h1>
+            <p class="text-lg md:text-xl text-gray-100 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed md:leading-loose">
+                Soluciones escalables en la nube y desarrollo de software de alta calidad.
+            </p>
+            <a href="blog/" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 inline-block min-w-[200px]">
+                Explora Nuestro Blog
+            </a>
         </div>
     </header>
 
     <!-- Servicios -->
-    <section id="servicios" class="container text-center my-5">
-        <h2 class="mb-4">Nuestros Servicios</h2>
-        <div class="row">
-            <!-- Arquitectura Cloud -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-cloud fa-3x mb-3"></i>
-                        <h5 class="card-title">Arquitectura Cloud</h5>
-                        <p class="card-text">Infraestructura optimizada para alto rendimiento y seguridad.</p>
+    <section id="servicios" class="py-12 md:py-20 bg-gradient-to-b from-gray-900 to-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-orbitron text-center mb-12 md:mb-16 text-white leading-tight">Nuestros Servicios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Arquitectura Cloud -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-cloud text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Arquitectura Cloud</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Infraestructura optimizada para alto rendimiento y seguridad.</p>
                 </div>
-            </div>
 
-            <!-- Desarrollo de Software -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-laptop-code fa-3x mb-3"></i>
-                        <h5 class="card-title">Desarrollo de Software</h5>
-                        <p class="card-text">Implementación de soluciones tecnológicas personalizadas.</p>
+                <!-- Desarrollo de Software -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-laptop-code text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Desarrollo de Software</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Implementación de soluciones tecnológicas personalizadas.</p>
                 </div>
-            </div>
 
-            <!-- Optimización IT -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-chart-line fa-3x mb-3"></i>
-                        <h5 class="card-title">Optimización IT</h5>
-                        <p class="card-text">Mejoramos el rendimiento de tus sistemas con las mejores estrategias.</p>
+                <!-- Optimización IT -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-chart-line text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Optimización IT</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Mejoramos el rendimiento de tus sistemas con las mejores estrategias.</p>
                 </div>
-            </div>
 
-            <!-- Nuevos Servicios -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-cogs fa-3x mb-3"></i>
-                        <h5 class="card-title">Automatización de Procesos</h5>
-                        <p class="card-text">Diseñamos flujos automáticos para reducir tiempos y errores en tus operaciones.</p>
+                <!-- Automatización de Procesos -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-cogs text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Automatización de Procesos</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Diseñamos flujos automáticos para reducir tiempos y errores en tus operaciones.</p>
                 </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-shield-alt fa-3x mb-3"></i>
-                        <h5 class="card-title">Ciberseguridad y Compliance</h5>
-                        <p class="card-text">Protegemos tu infraestructura y garantizamos el cumplimiento de normativas.</p>
+                <!-- Ciberseguridad y Compliance -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-shield-alt text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Ciberseguridad y Compliance</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Protegemos tu infraestructura y garantizamos el cumplimiento de normativas.</p>
                 </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-chart-pie fa-3x mb-3"></i>
-                        <h5 class="card-title">Data Analytics y BI</h5>
-                        <p class="card-text">Visualiza y analiza tus datos para decisiones basadas en información real.</p>
+                <!-- Data Analytics y BI -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-chart-pie text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Data Analytics y BI</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Visualiza y analiza tus datos para decisiones basadas en información real.</p>
                 </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-terminal fa-3x mb-3"></i>
-                        <h5 class="card-title">Infraestructura como Código (IaC)</h5>
-                        <p class="card-text">Automatiza la provisión de tu infraestructura con herramientas modernas.</p>
+                <!-- Infraestructura como Código -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-terminal text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Infraestructura como Código (IaC)</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Automatiza la provisión de tu infraestructura con herramientas modernas.</p>
                 </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-plug fa-3x mb-3"></i>
-                        <h5 class="card-title">Integración de APIs</h5>
-                        <p class="card-text">Conectamos tus sistemas con servicios externos para potenciar tus soluciones.</p>
+                <!-- Integración de APIs -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-plug text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Integración de APIs</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Conectamos tus sistemas con servicios externos para potenciar tus soluciones.</p>
                 </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-rocket fa-3x mb-3"></i>
-                        <h5 class="card-title">DevOps y CI/CD</h5>
-                        <p class="card-text">Aceleramos tus despliegues con pipelines y buenas prácticas de DevOps.</p>
+                <!-- DevOps y CI/CD -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-rocket text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">DevOps y CI/CD</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Aceleramos tus despliegues con pipelines y buenas prácticas de DevOps.</p>
                 </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <i class="fas fa-eye fa-3x mb-3"></i>
-                        <h5 class="card-title">Monitoreo y Observabilidad</h5>
-                        <p class="card-text">Implementamos herramientas para el monitoreo proactivo y análisis en tiempo real.</p>
+                <!-- Monitoreo y Observabilidad -->
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
+                    <div class="text-blue-400 mb-4 md:mb-6">
+                        <i class="fas fa-eye text-3xl md:text-4xl"></i>
                     </div>
+                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Monitoreo y Observabilidad</h3>
+                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Implementamos herramientas para el monitoreo proactivo y análisis en tiempo real.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Botón flotante de contacto por correo -->
-    <a href="mailto:contacto@ticraft.cl" class="contact-float" title="Enviar correo">
-        <i class="fas fa-envelope"></i>
+    <!-- Botón flotante de contacto -->
+    <a href="mailto:contacto@ticraft.cl" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-full shadow-lg hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 z-50 w-16 h-16 md:w-14 md:h-14 flex items-center justify-center">
+        <i class="fas fa-envelope text-2xl md:text-xl"></i>
     </a>
 
-
     <!-- Footer -->
-    <footer class="footer text-center py-3">
-        <img src="images/068498cc590434cbdec4d94a96206b6c.png" alt="TICRAFT Logo" height="50">
-        <p>© 2025 TICRAFT.CL | <a href="mailto:contacto@ticraft.cl">Contáctanos</a></p>
+    <footer class="bg-gray-900 text-white py-8 md:py-12">
+        <div class="container mx-auto px-4 text-center">
+            <img src="images/068498cc590434cbdec4d94a96206b6c.png" alt="TICRAFT Logo" class="h-14 md:h-16 mx-auto mb-4 md:mb-6">
+            <p class="text-gray-100 text-base md:text-lg leading-relaxed">
+                © 2025 TICRAFT.CL | 
+                <a href="mailto:contacto@ticraft.cl" class="text-blue-400 hover:text-blue-300 transition-colors">
+                    Contáctanos
+                </a>
+            </p>
+        </div>
     </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para el menú móvil -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.querySelector('[data-collapse-toggle="navbar-default"]');
+            const menuContent = document.getElementById('navbar-default');
+            const navbar = document.querySelector('nav');
+
+            // Cambiar navbar al hacer scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-gray-900/95', 'backdrop-blur-sm');
+                } else {
+                    navbar.classList.remove('bg-gray-900/95', 'backdrop-blur-sm');
+                }
+            });
+
+            // Toggle menú móvil
+            menuButton.addEventListener('click', function() {
+                menuContent.classList.toggle('hidden');
+            });
+
+            // Cerrar menú al hacer click en un enlace
+            document.querySelectorAll('#navbar-default a').forEach(link => {
+                link.addEventListener('click', function() {
+                    menuContent.classList.add('hidden');
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
