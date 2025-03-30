@@ -161,10 +161,10 @@
   
 
     <header class="hero flex items-center justify-center text-center">
-        <video class="video-bg" autoplay muted loop playsinline>
+        <video id="bgVideo" class="video-bg" autoplay muted loop playsinline>
+            <source src="images/landing.webm" type="video/webm">
             <source src="https://videos.pexels.com/video-files/6962343/6962343-hd_1920_1080_25fps.mp4" type="video/mp4">
-         </video>
-
+        </video>
         <div class="overlay"></div>
         <div class="container mx-auto px-4 max-w-4xl">
             <h1 class="text-4xl md:text-5xl lg:text-7xl font-orbitron text-white mb-6 md:mb-8 animate-fade-in leading-tight">
@@ -377,6 +377,34 @@
                     button.style.pointerEvents = 'none';
                     button.style.transform = 'translateY(20px)';
                 }
+            });
+        });
+    </script>
+
+    <!-- Actualizar el video -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('bgVideo');
+            let forward = true;
+
+            video.addEventListener('timeupdate', function() {
+                // Si está reproduciendo hacia adelante y llega al final
+                if (forward && video.currentTime >= video.duration - 0.1) {
+                    forward = false;
+                    video.playbackRate = -1; // Cambiar a reproducción inversa
+                    video.currentTime = video.duration; // Asegurar que estamos al final
+                }
+                // Si está reproduciendo hacia atrás y llega al inicio
+                else if (!forward && video.currentTime <= 0.1) {
+                    forward = true;
+                    video.playbackRate = 1; // Cambiar a reproducción normal
+                    video.currentTime = 0; // Asegurar que estamos al inicio
+                }
+            });
+
+            // Asegurar que el video se reproduce
+            video.play().catch(function(error) {
+                console.log("Error reproduciendo el video:", error);
             });
         });
     </script>
