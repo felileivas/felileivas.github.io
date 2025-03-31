@@ -74,9 +74,53 @@
         
     <!-- Estilos personalizados -->
     <style>
+        :root {
+            --safe-area-inset-top: env(safe-area-inset-top, 0px);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+            --grid-gap: 16px;
+            --grid-margin: 16px;
+            --ios-nav-height: 96px;
+            --android-nav-height: 56px;
+            --ios-tab-height: 56px;
+            --android-tab-height: 56px;
+            --ios-home-indicator: 34px;
+            --android-gesture-area: 48px;
+        }
+
         .font-orbitron {
             font-family: 'Orbitron', sans-serif;
         }
+
+        /* Ajustes para iOS */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            .ios-safe-area {
+                padding-top: var(--safe-area-inset-top);
+                padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-home-indicator));
+            }
+        }
+
+        /* Grid system mejorado */
+        .grid-container {
+            display: grid;
+            gap: var(--grid-gap);
+            padding: var(--grid-margin);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        /* Zonas táctiles */
+        .touch-manipulation {
+            touch-action: manipulation;
+            min-height: 48px;
+            min-width: 48px;
+        }
+
+        /* Ajustes para Android */
+        @media screen and (max-width: 360px) {
+            .android-navigation-space {
+                padding-bottom: var(--android-gesture-area);
+            }
+        }
+
         .hero {
             position: relative;
             width: 100%;
@@ -86,7 +130,9 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            padding-top: var(--ios-nav-height);
         }
+
         .video-bg {
             position: absolute;
             top: 50%;
@@ -99,6 +145,7 @@
             object-fit: cover;
             z-index: -1;
         }
+
         .overlay {
             position: absolute;
             top: 0;
@@ -108,16 +155,47 @@
             background: rgba(0, 0, 0, 0.6);
             z-index: -1;
         }
+
         .card-hover {
             transition: transform 0.3s ease;
         }
+
         .card-hover:hover {
             transform: translateY(-5px);
         }
-        @media (max-width: 768px) {
+
+        /* Media queries específicas para iOS y Android */
+        @media screen and (max-width: 393px) {
             .hero {
-                height: 100vh;
                 min-height: 500px;
+                padding-top: var(--ios-nav-height);
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            .hero {
+                padding-top: var(--android-nav-height);
+            }
+        }
+
+        /* Ajustes para el botón flotante */
+        .floating-button {
+            position: fixed;
+            bottom: calc(var(--grid-margin) + var(--safe-area-inset-bottom));
+            right: var(--grid-margin);
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        /* Ajustes para el footer */
+        .footer {
+            margin: var(--grid-margin);
+            padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-home-indicator));
+        }
+
+        @media screen and (max-width: 360px) {
+            .footer {
+                padding-bottom: calc(var(--android-gesture-area) + var(--grid-margin));
             }
         }
     </style>
@@ -127,35 +205,62 @@
 
 
     <!-- Navbar -->
-    <nav class="bg-gray-950 border-gray-800" aria-label="Navegación principal">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-4 rtl:space-x-reverse group">
+    <nav class="bg-gray-950 border-gray-800 fixed w-full top-0 z-50 ios:h-[96px] android:h-[56px] h-[56px]" aria-label="Navegación principal">
+        <div class="max-w-screen-xl mx-auto px-4 h-full flex items-center justify-between">
+            <a href="#" class="flex items-center gap-4 group touch-manipulation">
                 <img src="images/068498cc590434cbdec4d94a96206b6c.png" 
-                     class="h-12 md:h-14 transition-all duration-300 group-hover:scale-110 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]" 
-                     alt="Logo de TICRAFT - Especialistas en Cloud y Desarrollo" />
-                <span class="self-center text-2xl md:text-3xl font-orbitron font-bold whitespace-nowrap bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 transition-all duration-300 drop-shadow-[0_0_10px_rgba(59,130,246,0.2)]">
+                     class="h-10 md:h-12 transition-all duration-300 group-hover:scale-110" 
+                     alt="Logo de TICRAFT" />
+                <span class="text-xl md:text-2xl font-orbitron font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                     TICRAFT
                 </span>
             </a>
-            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                <a href="mailto:contacto@ticraft.cl" class="hidden sm:[display:none] [display:none] [min-width:460px]:inline-flex text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Contáctanos</a>
-                <button data-collapse-toggle="navbar-cta" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-300 rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-cta" aria-expanded="false">
-                    <span class="sr-only">Abrir menú principal</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-                    </svg>
-                </button>
+
+            <!-- Menú de navegación -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#servicios" class="text-white hover:text-blue-400 transition-colors px-4 py-2 touch-manipulation">Servicios</a>
+                <a href="blog/" class="text-white hover:text-blue-400 transition-colors px-4 py-2 touch-manipulation">Blog</a>
+                <a href="mailto:contacto@ticraft.cl" 
+                   class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all touch-manipulation">
+                    Contáctanos
+                </a>
             </div>
-            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
-                <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 rounded-lg bg-gray-800 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
-                    <li>
-                        <a href="#servicios" class="block py-2 px-3 md:p-0 text-white hover:text-blue-400 rounded-sm transition-colors" aria-current="page">Servicios</a>
-                    </li>
-                    <li>
-                        <a href="blog/" class="block py-2 px-3 md:p-0 text-white hover:text-blue-400 rounded-sm transition-colors">Blog</a>
-                    </li>
-                </ul>
+
+            <!-- Menú móvil -->
+            <div id="mobile-menu" class="hidden fixed inset-0 bg-gray-950/95 backdrop-blur-sm z-50 md:hidden">
+                <div class="flex flex-col h-full">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-800 h-[56px]">
+                        <a href="#" class="flex items-center gap-4 group touch-manipulation">
+                            <img src="images/068498cc590434cbdec4d94a96206b6c.png" 
+                                 class="h-10 transition-all duration-300 group-hover:scale-110" 
+                                 alt="Logo de TICRAFT" />
+                            <span class="text-xl font-orbitron font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                                TICRAFT
+                            </span>
+                        </a>
+                        <button class="p-4 touch-manipulation" aria-label="Cerrar menú">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col items-center justify-center flex-1 gap-8 p-4">
+                        <a href="#servicios" class="text-white hover:text-blue-400 transition-colors text-xl px-4 py-2 touch-manipulation">Servicios</a>
+                        <a href="blog/" class="text-white hover:text-blue-400 transition-colors text-xl px-4 py-2 touch-manipulation">Blog</a>
+                        <a href="mailto:contacto@ticraft.cl" 
+                           class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-3 rounded-lg hover:shadow-lg transition-all text-lg touch-manipulation">
+                            Contáctanos
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            <!-- Botón móvil -->
+            <button class="md:hidden p-4 touch-manipulation" aria-label="Menú">
+                <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                </svg>
+            </button>
         </div>
     </nav>
   
@@ -167,13 +272,13 @@
         </video>
         <div class="overlay"></div>
         <div class="container mx-auto px-4 max-w-4xl">
-            <h1 class="text-4xl md:text-5xl lg:text-7xl font-orbitron text-white mb-6 md:mb-8 animate-fade-in leading-tight">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-orbitron text-white mb-4 sm:mb-6 md:mb-8 animate-fade-in leading-tight px-2">
                 Construyendo el Futuro con Tecnología
             </h1>
-            <p class="text-lg md:text-xl text-gray-100 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed md:leading-loose">
+            <p class="text-base sm:text-lg md:text-xl text-gray-100 mb-6 sm:mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed md:leading-loose px-2">
                 Soluciones escalables en la nube y desarrollo de software de alta calidad.
             </p>
-            <a href="blog/" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 inline-block min-w-[200px]">
+            <a href="blog/" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 inline-block min-w-[180px] sm:min-w-[200px]">
                 Explora Nuestro Blog
             </a>
         </div>
@@ -182,127 +287,174 @@
     <!-- Servicios -->
     <section id="servicios" class="py-12 md:py-20 bg-gradient-to-b from-gray-950 to-gray-900">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl lg:text-5xl font-orbitron text-center mb-12 md:mb-16 text-white leading-tight">Nuestros Servicios</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <h2 class="text-3xl md:text-4xl font-orbitron text-center mb-12 text-white">
+                Nuestros Servicios
+            </h2>
+            <div class="grid-container">
                 <!-- Arquitectura Cloud -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-cloud text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-cloud text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Arquitectura Cloud</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Infraestructura optimizada para alto rendimiento y seguridad.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Arquitectura Cloud
+                    </h3>
+                    <p class="text-gray-300">
+                        Infraestructura optimizada para alto rendimiento y seguridad.
+                    </p>
                 </div>
 
                 <!-- Desarrollo de Software -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-laptop-code text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-laptop-code text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Desarrollo de Software</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Implementación de soluciones tecnológicas personalizadas.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Desarrollo de Software
+                    </h3>
+                    <p class="text-gray-300">
+                        Implementación de soluciones tecnológicas personalizadas.
+                    </p>
                 </div>
 
                 <!-- Optimización IT -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-chart-line text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-chart-line text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Optimización IT</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Mejoramos el rendimiento de tus sistemas con las mejores estrategias.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Optimización IT
+                    </h3>
+                    <p class="text-gray-300">
+                        Mejoramos el rendimiento de tus sistemas con las mejores estrategias.
+                    </p>
                 </div>
 
                 <!-- Automatización de Procesos -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-cogs text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-cogs text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Automatización de Procesos</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Diseñamos flujos automáticos para reducir tiempos y errores en tus operaciones.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Automatización de Procesos
+                    </h3>
+                    <p class="text-gray-300">
+                        Diseñamos flujos automáticos para reducir tiempos y errores en tus operaciones.
+                    </p>
                 </div>
 
                 <!-- Ciberseguridad y Compliance -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-shield-alt text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-shield-alt text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Ciberseguridad y Compliance</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Protegemos tu infraestructura y garantizamos el cumplimiento de normativas.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Ciberseguridad y Compliance
+                    </h3>
+                    <p class="text-gray-300">
+                        Protegemos tu infraestructura y garantizamos el cumplimiento de normativas.
+                    </p>
                 </div>
 
                 <!-- Data Analytics y BI -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-chart-pie text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-chart-pie text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Data Analytics y BI</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Visualiza y analiza tus datos para decisiones basadas en información real.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Data Analytics y BI
+                    </h3>
+                    <p class="text-gray-300">
+                        Visualiza y analiza tus datos para decisiones basadas en información real.
+                    </p>
                 </div>
 
                 <!-- Infraestructura como Código -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-terminal text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-terminal text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Infraestructura como Código (IaC)</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Automatiza la provisión de tu infraestructura con herramientas modernas.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Infraestructura como Código (IaC)
+                    </h3>
+                    <p class="text-gray-300">
+                        Automatiza la provisión de tu infraestructura con herramientas modernas.
+                    </p>
                 </div>
 
                 <!-- Integración de APIs -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-plug text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-plug text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Integración de APIs</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Conectamos tus sistemas con servicios externos para potenciar tus soluciones.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Integración de APIs
+                    </h3>
+                    <p class="text-gray-300">
+                        Conectamos tus sistemas con servicios externos para potenciar tus soluciones.
+                    </p>
                 </div>
 
                 <!-- DevOps y CI/CD -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-rocket text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-rocket text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">DevOps y CI/CD</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Aceleramos tus despliegues con pipelines y buenas prácticas de DevOps.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        DevOps y CI/CD
+                    </h3>
+                    <p class="text-gray-300">
+                        Aceleramos tus despliegues con pipelines y buenas prácticas de DevOps.
+                    </p>
                 </div>
 
                 <!-- Monitoreo y Observabilidad -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 md:p-8 card-hover">
-                    <div class="text-blue-400 mb-4 md:mb-6">
-                        <i class="fas fa-eye text-3xl md:text-4xl"></i>
+                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
+                    <div class="text-blue-400 mb-4">
+                        <i class="fas fa-eye text-3xl"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white leading-relaxed">Monitoreo y Observabilidad</h3>
-                    <p class="text-gray-100 text-base md:text-lg leading-relaxed">Implementamos herramientas para el monitoreo proactivo y análisis en tiempo real.</p>
+                    <h3 class="text-xl font-semibold mb-3 text-white">
+                        Monitoreo y Observabilidad
+                    </h3>
+                    <p class="text-gray-300">
+                        Implementamos herramientas para el monitoreo proactivo y análisis en tiempo real.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Botón flotante de contacto -->
-    <a href="mailto:contacto@ticraft.cl" class="fixed bottom-6 left-6 md:bottom-8 md:left-8 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-3 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 z-50 inline-flex items-center font-medium">
-        <svg class="w-4 h-4 text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+    <a href="mailto:contacto@ticraft.cl" 
+       class="floating-button bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2 touch-manipulation">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
         </svg>
-        <span class="text-sm">Contáctanos</span>
+        <span>Contáctanos</span>
     </a>
 
     <!-- Footer -->
-    <footer class="bg-gray-950 rounded-lg shadow-lg m-4" role="contentinfo">
+    <footer class="footer bg-gray-950 rounded-lg shadow-lg" role="contentinfo">
         <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <div class="sm:flex sm:items-center sm:justify-between">
-                <a href="#" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse group">
-                    <img src="images/068498cc590434cbdec4d94a96206b6c.png" class="h-10 md:h-12 transition-transform duration-300 group-hover:scale-110" alt="Logo de TICRAFT - Especialistas en Cloud y Desarrollo" />
-                    <span class="self-center text-2xl font-orbitron whitespace-nowrap text-white bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent hover:from-blue-300 hover:via-blue-400 hover:to-blue-500 transition-all duration-300">TICRAFT</span>
+                <a href="#" class="flex items-center mb-4 sm:mb-0 gap-3 group touch-manipulation">
+                    <img src="images/068498cc590434cbdec4d94a96206b6c.png" 
+                         class="h-10 md:h-12 transition-transform duration-300 group-hover:scale-110" 
+                         alt="Logo de TICRAFT" />
+                    <span class="text-2xl font-orbitron text-white bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                        TICRAFT
+                    </span>
                 </a>
                 <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-300 sm:mb-0">
                     <li>
-                        <a href="#servicios" class="hover:text-blue-400 hover:underline me-4 md:me-6 transition-colors">Servicios</a>
+                        <a href="#servicios" class="hover:text-blue-400 hover:underline me-4 md:me-6 transition-colors touch-manipulation">Servicios</a>
                     </li>
                     <li>
-                        <a href="blog/" class="hover:text-blue-400 hover:underline me-4 md:me-6 transition-colors">Blog</a>
+                        <a href="blog/" class="hover:text-blue-400 hover:underline me-4 md:me-6 transition-colors touch-manipulation">Blog</a>
                     </li>
                     <li>
-                        <a href="mailto:contacto@ticraft.cl" class="hover:text-blue-400 hover:underline transition-colors">Contacto</a>
+                        <a href="mailto:contacto@ticraft.cl" class="hover:text-blue-400 hover:underline transition-colors touch-manipulation">Contacto</a>
                     </li>
                 </ul>
             </div>
@@ -311,73 +463,107 @@
                 <span class="block text-sm text-gray-300 sm:text-center">
                     © 2025 TICRAFT.CL | Todos los derechos reservados
                 </span>
-                <a href="mailto:contacto@ticraft.cl" class="block mt-4 sm:mt-0 text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                <a href="mailto:contacto@ticraft.cl" class="block mt-4 sm:mt-0 text-sm text-blue-400 hover:text-blue-300 transition-colors touch-manipulation">
                     contacto@ticraft.cl
                 </a>
             </div>
         </div>
     </footer>
 
-    <!-- Script para el menú móvil -->
+    <!-- Script para detección de plataforma y manejo de UI -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.querySelector('[data-collapse-toggle="navbar-cta"]');
-            const menuContent = document.getElementById('navbar-cta');
-            const navbar = document.querySelector('nav');
+            // Detectar sistema operativo
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
 
-            // Cambiar navbar al hacer scroll
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('bg-gray-900/95', 'backdrop-blur-sm');
-                } else {
-                    navbar.classList.remove('bg-gray-900/95', 'backdrop-blur-sm');
-                }
+            // Aplicar clases según el sistema operativo
+            if (isIOS) {
+                document.body.classList.add('ios-safe-area');
+            } else if (isAndroid) {
+                document.body.classList.add('android-navigation-space');
+            }
+
+            // Ajustar altura del viewport para móviles
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+            window.addEventListener('resize', () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
             });
 
-            // Toggle menú móvil
-            menuButton.addEventListener('click', function() {
-                menuContent.classList.toggle('hidden');
-            });
-
-            // Cerrar menú al hacer click en un enlace
-            document.querySelectorAll('#navbar-cta a').forEach(link => {
-                link.addEventListener('click', function() {
-                    menuContent.classList.add('hidden');
-                });
-            });
-        });
-    </script>
-
-    <!-- Script para ocultar el botón cuando se llega al footer -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const button = document.querySelector('.fixed'); // botón flotante
-            const navbar = document.querySelector('nav'); // navbar
+            // Manejo del botón flotante
+            const button = document.querySelector('.floating-button');
             const footer = document.querySelector('footer');
 
-            // Ocultar el botón por defecto
-            button.style.opacity = '0';
-            button.style.pointerEvents = 'none';
-            button.style.transform = 'translateY(20px)';
-            button.style.transition = 'all 0.3s ease';
+            if (button) {
+                // Ocultar el botón por defecto
+                button.style.opacity = '0';
+                button.style.pointerEvents = 'none';
+                button.style.transform = 'translateY(20px)';
+                button.style.transition = 'all 0.3s ease';
 
-            window.addEventListener('scroll', function() {
-                const navbarRect = navbar.getBoundingClientRect();
-                const footerRect = footer.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-
-                // Si el navbar no está visible y el footer no está en vista, mostrar el botón
-                if (navbarRect.bottom < 0 && footerRect.top > windowHeight) {
-                    button.style.opacity = '1';
-                    button.style.pointerEvents = 'auto';
-                    button.style.transform = 'translateY(0)';
-                } else {
-                    // En cualquier otro caso, ocultar el botón
-                    button.style.opacity = '0';
-                    button.style.pointerEvents = 'none';
-                    button.style.transform = 'translateY(20px)';
+                // Función para verificar si un elemento está en vista
+                function isElementInViewport(el) {
+                    const rect = el.getBoundingClientRect();
+                    return (
+                        rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    );
                 }
-            });
+
+                // Manejar la visibilidad del botón
+                function handleButtonVisibility() {
+                    const footerRect = footer.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+
+                    // Si el footer no está en vista, mostrar el botón
+                    if (footerRect.top > windowHeight) {
+                        button.style.opacity = '1';
+                        button.style.pointerEvents = 'auto';
+                        button.style.transform = 'translateY(0)';
+                    } else {
+                        // Si el footer está en vista, ocultar el botón
+                        button.style.opacity = '0';
+                        button.style.pointerEvents = 'none';
+                        button.style.transform = 'translateY(20px)';
+                    }
+                }
+
+                // Escuchar eventos de scroll
+                window.addEventListener('scroll', handleButtonVisibility, { passive: true });
+                window.addEventListener('resize', handleButtonVisibility, { passive: true });
+            }
+
+            // Manejo del menú móvil
+            const menuButton = document.querySelector('button[aria-label="Menú"]');
+            const closeButton = document.querySelector('button[aria-label="Cerrar menú"]');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; // Prevenir scroll cuando el menú está abierto
+                });
+
+                if (closeButton) {
+                    closeButton.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        document.body.style.overflow = ''; // Restaurar scroll
+                    });
+                }
+
+                // Cerrar menú al hacer click en un enlace
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        document.body.style.overflow = ''; // Restaurar scroll
+                    });
+                });
+            }
         });
     </script>
 
