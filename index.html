@@ -75,16 +75,59 @@
     <!-- Estilos personalizados -->
     <style>
         :root {
+            /* Fibonacci spacing (basado en 8px) */
+            --spacing-1: 8px;    /* 8 */
+            --spacing-2: 13px;   /* ~8 * 1.618 */
+            --spacing-3: 21px;   /* ~8 * 2.618 */
+            --spacing-4: 34px;   /* ~8 * 4.236 */
+            --spacing-5: 55px;   /* ~8 * 6.854 */
+            --spacing-6: 89px;   /* ~8 * 11.090 */
+
+            /* Fibonacci typography */
+            --text-fibonacci-xs: 0.75rem;     /* 12px */
+            --text-fibonacci-sm: 0.813rem;    /* 13px */
+            --text-fibonacci-base: 1rem;      /* 16px */
+            --text-fibonacci-lg: 1.313rem;    /* 21px */
+            --text-fibonacci-xl: 2.125rem;    /* 34px */
+            --text-fibonacci-2xl: 3.438rem;   /* 55px */
+            --text-fibonacci-3xl: 5.563rem;   /* 89px */
+
+            /* Line heights */
+            --leading-tight: 1.2;
+            --leading-normal: 1.5;
+            --leading-relaxed: 1.625;
+            --leading-loose: 2;
+
+            /* Sistema de espaciado basado en múltiplos de 8 */
+            --spacing-7: 56px;   /* 8 * 7 */
+            --spacing-8: 64px;   /* 8 * 8 */
+
+            /* Tamaños de tipografía basados en Fibonacci */
+            --text-xs: 8px;     /* Base */
+            --text-sm: 13px;    /* Fibonacci 8 + 5 */
+            --text-base: 21px;  /* Fibonacci 13 + 8 */
+            --text-lg: 34px;    /* Fibonacci 21 + 13 */
+            --text-xl: 55px;    /* Fibonacci 34 + 21 */
+            --text-2xl: 89px;   /* Fibonacci 55 + 34 */
+
+            /* Variables existentes */
             --safe-area-inset-top: env(safe-area-inset-top, 0px);
             --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
-            --grid-gap: 16px;
-            --grid-margin: 16px;
+            --grid-gap: var(--spacing-2);
+            --grid-margin: var(--spacing-2);
             --ios-nav-height: 96px;
             --android-nav-height: 56px;
             --ios-tab-height: 56px;
             --android-tab-height: 56px;
             --ios-home-indicator: 34px;
             --android-gesture-area: 48px;
+        }
+
+        /* Tipografía principal */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
         }
 
         .font-orbitron {
@@ -102,16 +145,130 @@
         /* Grid system mejorado */
         .grid-container {
             display: grid;
-            gap: var(--grid-gap);
-            padding: var(--grid-margin);
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-4);
+            padding: var(--spacing-4);
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         }
 
-        /* Zonas táctiles */
-        .touch-manipulation {
-            touch-action: manipulation;
-            min-height: 48px;
-            min-width: 48px;
+        @media (min-width: 768px) and (max-width: 1200px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-5);
+            }
+            
+            /* Ajustes de texto para pantallas medianas */
+            .service-card h3 {
+                font-size: var(--text-base) !important;
+                line-height: var(--leading-tight) !important;
+            }
+            
+            .service-card p {
+                font-size: var(--text-sm) !important;
+                line-height: var(--leading-relaxed) !important;
+            }
+            
+            .service-card ul {
+                font-size: var(--text-sm) !important;
+                line-height: var(--leading-normal) !important;
+            }
+        }
+
+        /* Tarjetas de servicios */
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--spacing-2);
+            padding: var(--spacing-4);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+        }
+
+        .service-card:hover {
+            transform: scale(1.02);
+        }
+
+        .service-card .icon-container {
+            margin-bottom: var(--spacing-3);
+        }
+
+        .service-card h3 {
+            font-size: var(--text-lg);
+            line-height: var(--leading-tight);
+            margin-bottom: var(--spacing-2);
+        }
+
+        .service-card p {
+            font-size: var(--text-base);
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--spacing-4);
+            flex-grow: 1;
+        }
+
+        .service-card ul {
+            margin-top: auto;
+            font-size: var(--text-sm);
+            line-height: var(--leading-normal);
+        }
+
+        .service-card ul li {
+            padding-bottom: var(--spacing-2);
+        }
+
+        /* Sección de servicios */
+        #servicios {
+            padding-top: var(--spacing-8);
+            padding-bottom: var(--spacing-8);
+        }
+
+        #servicios h2 {
+            margin-bottom: var(--spacing-4);
+            line-height: var(--leading-tight);
+        }
+
+        #servicios > p {
+            margin-bottom: var(--spacing-6);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Ajustes generales */
+        .container {
+            padding-left: var(--spacing-4);
+            padding-right: var(--spacing-4);
+        }
+
+        .max-w-4xl {
+            max-width: calc(64 * var(--spacing-1)); /* 512px */
+        }
+
+        .max-w-3xl {
+            max-width: calc(48 * var(--spacing-1)); /* 384px */
+        }
+
+        /* Media queries específicas */
+        @media screen and (max-width: 640px) {
+            :root {
+                --text-base: 16px;
+                --text-lg: 21px;
+                --text-xl: 34px;
+                --text-2xl: 55px;
+            }
+
+            .service-card {
+                padding: var(--spacing-3);
+                gap: var(--spacing-2);
+            }
+
+            .service-card p {
+                margin-bottom: var(--spacing-3);
+            }
+
+            .service-card ul li {
+                padding-bottom: var(--spacing-1);
+            }
         }
 
         /* Ajustes para Android */
@@ -164,38 +321,45 @@
             transform: translateY(-5px);
         }
 
-        /* Media queries específicas para iOS y Android */
-        @media screen and (max-width: 393px) {
-            .hero {
-                min-height: 500px;
-                padding-top: var(--ios-nav-height);
-            }
-        }
-
-        @media screen and (max-width: 360px) {
-            .hero {
-                padding-top: var(--android-nav-height);
-            }
-        }
-
         /* Ajustes para el botón flotante */
         .floating-button {
             position: fixed;
-            bottom: calc(var(--grid-margin) + var(--safe-area-inset-bottom));
-            right: var(--grid-margin);
+            bottom: calc(var(--spacing-3) + var(--safe-area-inset-bottom));
+            right: var(--spacing-3);
             z-index: 50;
             transition: all 0.3s ease;
+            padding: var(--spacing-2) var(--spacing-3);
         }
 
         /* Ajustes para el footer */
         .footer {
-            margin: var(--grid-margin);
+            margin: var(--spacing-2);
+            padding: var(--spacing-4) var(--spacing-2);
             padding-bottom: calc(var(--safe-area-inset-bottom) + var(--ios-home-indicator));
         }
 
-        @media screen and (max-width: 360px) {
-            .footer {
-                padding-bottom: calc(var(--android-gesture-area) + var(--grid-margin));
+        /* Utility classes for Fibonacci typography */
+        .text-fibonacci-xs { font-size: var(--text-fibonacci-xs); }
+        .text-fibonacci-sm { font-size: var(--text-fibonacci-sm); }
+        .text-fibonacci-base { font-size: var(--text-fibonacci-base); }
+        .text-fibonacci-lg { font-size: var(--text-fibonacci-lg); }
+        .text-fibonacci-xl { font-size: var(--text-fibonacci-xl); }
+        .text-fibonacci-2xl { font-size: var(--text-fibonacci-2xl); }
+        .text-fibonacci-3xl { font-size: var(--text-fibonacci-3xl); }
+
+        /* Line height utilities */
+        .leading-tight { line-height: var(--leading-tight); }
+        .leading-normal { line-height: var(--leading-normal); }
+        .leading-relaxed { line-height: var(--leading-relaxed); }
+        .leading-loose { line-height: var(--leading-loose); }
+
+        /* Media queries específicas */
+        @media screen and (max-width: 375px) {
+            :root {
+                --text-base: 13px;
+                --text-lg: 16px;
+                --text-xl: 21px;
+                --text-2xl: 34px;
             }
         }
     </style>
@@ -272,166 +436,585 @@
         </video>
         <div class="overlay"></div>
         <div class="container mx-auto px-4 max-w-4xl">
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-orbitron text-white mb-4 sm:mb-6 md:mb-8 animate-fade-in leading-tight px-2">
-                Construyendo el Futuro con Tecnología
+            <h1 class="text-fibonacci-xl sm:text-fibonacci-2xl font-orbitron text-white mb-8 leading-tight">
+                Arquitectura Cloud y Soluciones TI de Alto Impacto
             </h1>
-            <p class="text-base sm:text-lg md:text-xl text-gray-100 mb-6 sm:mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed md:leading-loose px-2">
-                Soluciones escalables en la nube y desarrollo de software de alta calidad.
+            <p class="text-fibonacci-base sm:text-fibonacci-lg text-gray-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Potenciamos la transformación digital de tu empresa con soluciones tecnológicas escalables y seguras.
             </p>
-            <a href="blog/" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-semibold hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 inline-block min-w-[180px] sm:min-w-[200px]">
-                Explora Nuestro Blog
-            </a>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#servicios" 
+                   class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-lg text-fibonacci-base font-semibold hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 touch-manipulation">
+                    Explora Nuestras Soluciones
+                </a>
+                <a href="mailto:contacto@ticraft.cl" 
+                   class="border-2 border-white/20 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-lg text-fibonacci-base font-semibold hover:bg-white/20 transition-all duration-300 transform hover:scale-105 touch-manipulation">
+                    Agenda una Reunión Estratégica
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Servicios -->
-    <section id="servicios" class="py-12 md:py-20 bg-gradient-to-b from-gray-950 to-gray-900">
+    <section id="servicios" class="py-16 bg-gradient-to-b from-gray-950 to-gray-900">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-orbitron text-center mb-12 text-white">
-                Nuestros Servicios
+            <h2 class="text-fibonacci-lg sm:text-fibonacci-xl font-orbitron text-center mb-8 text-white">
+                Soluciones que Impulsan tu Negocio
             </h2>
+            <p class="text-fibonacci-base text-center text-gray-300 mb-16 max-w-3xl mx-auto">
+                Optimizamos tu infraestructura tecnológica para maximizar la eficiencia operativa y el retorno de inversión.
+            </p>
             <div class="grid-container">
                 <!-- Arquitectura Cloud -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-cloud text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-cloud text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Arquitectura Cloud
                     </h3>
-                    <p class="text-gray-300">
-                        Infraestructura optimizada para alto rendimiento y seguridad.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Reduce costos operativos hasta un 40% con infraestructura cloud optimizada y segura.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Escalabilidad automática
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Alta disponibilidad
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Seguridad empresarial
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Desarrollo de Software -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-laptop-code text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-laptop-code text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Desarrollo de Software
                     </h3>
-                    <p class="text-gray-300">
-                        Implementación de soluciones tecnológicas personalizadas.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Soluciones personalizadas que automatizan procesos y mejoran la productividad en un 45%.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Desarrollo ágil
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Integración continua
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Código mantenible
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Optimización IT -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-chart-line text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-chart-line text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Optimización IT
                     </h3>
-                    <p class="text-gray-300">
-                        Mejoramos el rendimiento de tus sistemas con las mejores estrategias.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Incrementa la eficiencia operativa y reduce tiempos de respuesta en un 60%.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Monitoreo 24/7
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Optimización de recursos
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Análisis predictivo
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Automatización de Procesos -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-cogs text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-cogs text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Automatización de Procesos
                     </h3>
-                    <p class="text-gray-300">
-                        Diseñamos flujos automáticos para reducir tiempos y errores en tus operaciones.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Reduce hasta un 75% el tiempo en tareas repetitivas y minimiza errores operativos.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Flujos automatizados
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Reducción de errores
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Mayor productividad
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Ciberseguridad y Compliance -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-shield-alt text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-shield-alt text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Ciberseguridad y Compliance
                     </h3>
-                    <p class="text-gray-300">
-                        Protegemos tu infraestructura y garantizamos el cumplimiento de normativas.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Protege tus activos digitales y asegura el cumplimiento normativo con estándares internacionales.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Protección avanzada
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Auditorías de seguridad
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Cumplimiento normativo
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Data Analytics y BI -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-chart-pie text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-chart-pie text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Data Analytics y BI
                     </h3>
-                    <p class="text-gray-300">
-                        Visualiza y analiza tus datos para decisiones basadas en información real.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Toma decisiones estratégicas basadas en datos con insights en tiempo real.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Dashboards interactivos
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Análisis predictivo
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Reportes automatizados
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Infraestructura como Código -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-terminal text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-terminal text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
-                        Infraestructura como Código (IaC)
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
+                        Infraestructura como Código
                     </h3>
-                    <p class="text-gray-300">
-                        Automatiza la provisión de tu infraestructura con herramientas modernas.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Reduce errores de configuración en un 90% y acelera los despliegues con IaC.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Despliegues consistentes
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Control de versiones
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Automatización completa
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Integración de APIs -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-plug text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-plug text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Integración de APIs
                     </h3>
-                    <p class="text-gray-300">
-                        Conectamos tus sistemas con servicios externos para potenciar tus soluciones.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Conecta y sincroniza tus sistemas para un flujo de datos sin interrupciones.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Integración segura
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            APIs RESTful
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Documentación completa
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- DevOps y CI/CD -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-rocket text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-rocket text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         DevOps y CI/CD
                     </h3>
-                    <p class="text-gray-300">
-                        Aceleramos tus despliegues con pipelines y buenas prácticas de DevOps.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Acelera el tiempo de salida al mercado en un 70% con automatización integral.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Despliegue automatizado
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Testing continuo
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Monitoreo en tiempo real
+                        </li>
+                    </ul>
                 </div>
 
                 <!-- Monitoreo y Observabilidad -->
-                <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl p-6 touch-manipulation">
-                    <div class="text-blue-400 mb-4">
-                        <i class="fas fa-eye text-3xl"></i>
+                <div class="service-card touch-manipulation">
+                    <div class="icon-container text-blue-400">
+                        <i class="fas fa-eye text-[34px]"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3 text-white">
+                    <h3 class="text-fibonacci-lg font-semibold text-white">
                         Monitoreo y Observabilidad
                     </h3>
-                    <p class="text-gray-300">
-                        Implementamos herramientas para el monitoreo proactivo y análisis en tiempo real.
+                    <p class="text-fibonacci-base text-gray-300">
+                        Detecta y resuelve problemas antes de que afecten a tus usuarios con monitoreo 24/7.
                     </p>
+                    <ul class="space-y-3 text-fibonacci-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Alertas proactivas
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Métricas en tiempo real
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-green-400"></i>
+                            Análisis de tendencias
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Sección de Confianza -->
+    <section id="confianza" class="py-16 bg-gradient-to-b from-gray-900 to-gray-950">
+        <!-- Bloque 1: Encabezado -->
+        <div class="container mx-auto px-4 text-center mb-16">
+            <h2 class="text-fibonacci-lg sm:text-fibonacci-xl font-inter text-white mb-4">
+                Confianza construida desde la experiencia y la especialización
+            </h2>
+            <p class="text-fibonacci-base text-gray-300 max-w-3xl mx-auto mb-10">
+                Más de 4 años creando soluciones tecnológicas críticas para instituciones públicas y privadas. 
+                Diseñamos con foco en escalabilidad, seguridad y resultados.
+            </p>
+            <hr class="w-32 mx-auto border-gray-700">
+        </div>
+
+        <!-- Bloque 2: Métricas de impacto -->
+        <div class="container mx-auto px-4 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Métrica 1 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 flex items-center gap-4 transform hover:scale-105 transition-all">
+                    <div class="text-blue-400 text-3xl">🧠</div>
+                    <div>
+                        <div class="text-fibonacci-lg font-bold text-white">+4</div>
+                        <div class="text-fibonacci-sm text-gray-300">años de experiencia en backend y cloud</div>
+                    </div>
+                </div>
+                <!-- Métrica 2 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 flex items-center gap-4 transform hover:scale-105 transition-all">
+                    <div class="text-blue-400 text-3xl">⚙️</div>
+                    <div>
+                        <div class="text-fibonacci-lg font-bold text-white">90%</div>
+                        <div class="text-fibonacci-sm text-gray-300">de reducción de errores en producción</div>
+                    </div>
+                </div>
+                <!-- Métrica 3 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 flex items-center gap-4 transform hover:scale-105 transition-all">
+                    <div class="text-blue-400 text-3xl">🔐</div>
+                    <div>
+                        <div class="text-fibonacci-lg font-bold text-white">70%</div>
+                        <div class="text-fibonacci-sm text-gray-300">de optimización en tiempos de despliegue</div>
+                    </div>
+                </div>
+                <!-- Métrica 4 -->
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 flex items-center gap-4 transform hover:scale-105 transition-all">
+                    <div class="text-blue-400 text-3xl">☁️</div>
+                    <div>
+                        <div class="text-fibonacci-lg font-bold text-white">AWS</div>
+                        <div class="text-fibonacci-sm text-gray-300">Infraestructuras cloud resilientes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 3: Testimonios -->
+        <div class="container mx-auto px-4 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonio 1 -->
+                <div class="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8 relative">
+                    <div class="text-5xl text-blue-400/20 absolute top-4 left-4">"</div>
+                    <p class="text-fibonacci-base text-gray-300 mb-4 relative z-10">
+                        Desplegamos un sistema crítico nacional en tiempo récord, gracias a una arquitectura robusta y bien diseñada.
+                    </p>
+                    <div class="text-fibonacci-sm text-gray-400">
+                        — Responsable técnico
+                    </div>
+                </div>
+                <!-- Testimonio 2 -->
+                <div class="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8 relative">
+                    <div class="text-5xl text-blue-400/20 absolute top-4 left-4">"</div>
+                    <p class="text-fibonacci-base text-gray-300 mb-4 relative z-10">
+                        Logramos reducir los errores operacionales en más de un 90% tras la integración desarrollada por TICRAFT.
+                    </p>
+                    <div class="text-fibonacci-sm text-gray-400">
+                        — Jefe de proyecto
+                    </div>
+                </div>
+                <!-- Testimonio 3 -->
+                <div class="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8 relative">
+                    <div class="text-5xl text-blue-400/20 absolute top-4 left-4">"</div>
+                    <p class="text-fibonacci-base text-gray-300 mb-4 relative z-10">
+                        La solución propuesta fue escalable, segura y completamente automatizada. Una experiencia profesional de alto nivel.
+                    </p>
+                    <div class="text-fibonacci-sm text-gray-400">
+                        — Encargado de TI
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 4: Stack y certificaciones -->
+        <div class="container mx-auto px-4 mb-16">
+            <div class="text-center mb-12">
+                <h3 class="text-fibonacci-xl font-semibold text-white mb-4">
+                    Soluciones respaldadas por experiencia y tecnologías líderes
+                </h3>
+                <p class="text-fibonacci-base text-gray-300 max-w-3xl mx-auto">
+                    En TICRAFT aplicamos herramientas de clase mundial para diseñar sistemas seguros, 
+                    escalables y alineados a los estándares de la industria.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Stack Tecnológico -->
+                <div class="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8">
+                    <h4 class="text-fibonacci-lg text-white mb-8">Stack Tecnológico Especializado</h4>
+                    
+                    <!-- Cloud y Arquitectura -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">⚙️</span>
+                            <h5 class="text-fibonacci-base font-semibold text-blue-300">Cloud y Arquitectura</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-300 pl-8">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>AWS (Lambda, ECS, RDS, S3, IAM, CloudWatch)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Docker & Contenedores</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Arquitectura serverless & event-driven</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Desarrollo Backend -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🧪</span>
+                            <h5 class="text-fibonacci-base font-semibold text-blue-300">Desarrollo Backend</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-300 pl-8">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Python (Django, FastAPI, AsyncIO)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Node.js (Express, NestJS)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>GraphQL y REST APIs</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Seguridad y Gobernanza -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🔐</span>
+                            <h5 class="text-fibonacci-base font-semibold text-blue-300">Seguridad y Gobernanza</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-300 pl-8">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>MFA, IAM, OAuth 2.0, JWT</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Firmas electrónicas avanzadas</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Cifrado de datos y cumplimiento normativo</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Observabilidad & DevOps -->
+                    <div class="mb-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">📈</span>
+                            <h5 class="text-fibonacci-base font-semibold text-blue-300">Observabilidad & DevOps</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-300 pl-8">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>GitLab CI, GitHub Actions, AWS CloudWatch</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>CI/CD pipelines & infraestructura como código</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Automatización AWS con boto3 y Terraform</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Ciencia de Datos -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🧬</span>
+                            <h5 class="text-fibonacci-base font-semibold text-blue-300">Ciencia de Datos (aplicada)</h5>
+                        </div>
+                        <ul class="space-y-3 text-gray-300 pl-8">
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Pandas, Scikit-learn, Statsmodels</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-blue-400 mt-1">•</span>
+                                <span>Análisis de datos orientado a decisiones</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Certificaciones y Prácticas -->
+                <div class="bg-gray-800/30 backdrop-blur-sm rounded-lg p-8">
+                    <h4 class="text-fibonacci-lg text-white mb-8">Prácticas y estándares adoptados</h4>
+
+                    <!-- Prácticas adoptadas -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="text-2xl">✅</span>
+                            <h5 class="text-fibonacci-base font-semibold text-indigo-300">Metodologías y buenas prácticas</h5>
+                        </div>
+                        <ul class="space-y-4 text-gray-300">
+                            <li class="flex items-start gap-3 bg-indigo-500/5 p-4 rounded-lg">
+                                <span class="text-indigo-400 mt-1">•</span>
+                                <span>Desarrollo ágil con foco en calidad y entrega continua</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-indigo-500/5 p-4 rounded-lg">
+                                <span class="text-indigo-400 mt-1">•</span>
+                                <span>Diseño orientado a resiliencia y mantenimiento</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-indigo-500/5 p-4 rounded-lg">
+                                <span class="text-indigo-400 mt-1">•</span>
+                                <span>Gobernanza cloud y control de identidades</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-indigo-500/5 p-4 rounded-lg">
+                                <span class="text-indigo-400 mt-1">•</span>
+                                <span>Aplicación de patrones cloud-native</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-indigo-500/5 p-4 rounded-lg">
+                                <span class="text-indigo-400 mt-1">•</span>
+                                <span>Arquitectura orientada a eventos y microservicios</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-indigo-500/5 p-4 rounded-lg">
+                                <span class="text-indigo-400 mt-1">•</span>
+                                <span>Seguridad y cumplimiento normativo por diseño</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bloque 5: CTA -->
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-fibonacci-lg text-white mb-8">
+                ¿Quieres transformar tus procesos tecnológicos con resultados concretos?
+            </p>
+            <a href="mailto:contacto@ticraft.cl" 
+               class="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-lg text-fibonacci-base font-semibold hover:from-blue-600 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 touch-manipulation">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                </svg>
+                Agenda una reunión estratégica
+            </a>
+        </div>
+    </section>
+
     <!-- Botón flotante de contacto -->
     <a href="mailto:contacto@ticraft.cl" 
-       class="floating-button bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2 touch-manipulation">
+       class="floating-button bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-3 text-fibonacci-base touch-manipulation">
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
             <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
         </svg>
-        <span>Contáctanos</span>
+        <span>Agenda una Reunión</span>
     </a>
 
     <!-- Footer -->
