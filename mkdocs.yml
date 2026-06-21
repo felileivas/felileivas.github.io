@@ -56,7 +56,7 @@ plugins:
 extra:
   favicon: images/favicon-32x32.png
   generator: false
-  copyright: "© TICRAFT 2023"
+  copyright: "© TICRAFT 2023 · BPM data by <a href="https://getsongbpm.com">GetSongBPM</a>"
   social:
     - icon: fontawesome/solid/envelope
       link: mailto:felipe@ticraft.cl
