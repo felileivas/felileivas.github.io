@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Admin | TICRAFT CMS</title>
+</head>
+<body>
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    var isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+    CMS.init({
+      config: {
+        locale: 'es',
+        backend: isLocal
+          ? { name: 'proxy', proxy_url: 'http://localhost:8081/api/v1' }
+          : { name: 'github', repo: 'felileivas/ticraft-site', branch: 'main' },
+        media_folder: 'public/images/blog',
+        public_folder: '/images/blog',
+        collections: [{
+          name: 'blog',
+          label: 'Blog Posts',
+          folder: 'src/content/blog',
+          create: true,
+          slug: '{{slug}}',
+          extension: 'md',
+          format: 'frontmatter',
+          fields: [
+            { label: 'Título', name: 'title', widget: 'string' },
+            { label: 'Fecha', name: 'date', widget: 'datetime' },
+            { label: 'Descripción SEO', name: 'description', widget: 'string' },
+            { label: 'Tags', name: 'tags', widget: 'list', default: ['blog'] },
+            { label: 'Imagen', name: 'image', widget: 'image', required: false },
+            { label: 'Contenido', name: 'body', widget: 'markdown' }
+          ]
+        }]
+      }
+    });
+  </script>
+</body>
+</html>

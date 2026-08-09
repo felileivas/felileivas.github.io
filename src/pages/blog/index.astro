@@ -1,0 +1,117 @@
+---
+import Layout from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('es-CL', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<Layout title="Blog">
+  <section class="blog-header">
+    <h1>Blog</h1>
+    <p class="subtitle">Artículos sobre desarrollo de software, ciencia de datos y arquitectura cloud.</p>
+  </section>
+
+  <section class="posts-grid">
+    {posts.map((post) => (
+      <article class="post-card">
+        <a href={`/blog/${post.id.replace(/\.md$/, '')}`}>
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+          <div class="tags">
+            {post.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </a>
+      </article>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .blog-header {
+    margin-bottom: 3rem;
+  }
+
+  .blog-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+  }
+
+  .posts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .post-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 13px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .post-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .post-card a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+  }
+
+  .post-card time {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .post-card h2 {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+    color: var(--color-text);
+  }
+
+  .post-card p {
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    background: rgba(63, 185, 80, 0.1);
+    color: var(--color-accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(63, 185, 80, 0.3);
+  }
+</style>
