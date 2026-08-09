@@ -1,0 +1,26 @@
+backend:
+  name: github
+  repo: felileivas/felileivas.github.io
+  branch: main
+  base_url: https://api.netlify.com
+  site_domain: symphonious-taiyaki-0782c0.netlify.app
+
+locale: es
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Descripción SEO", name: "description", widget: "string" }
+      - { label: "Tags", name: "tags", widget: "list", default: ["blog"] }
+      - { label: "Imagen", name: "image", widget: "image", required: false }
+      - { label: "Contenido", name: "body", widget: "markdown" }

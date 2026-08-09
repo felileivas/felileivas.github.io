@@ -8,40 +8,42 @@
 </head>
 <body>
   <script>
-    window.CMS_MANUAL_INIT = true;
+    // Local dev: use proxy backend (no auth needed)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      window.CMS_MANUAL_INIT = true;
+    }
   </script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    var isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-
-    CMS.init({
-      config: {
-        locale: 'es',
-        backend: isLocal
-          ? { name: 'proxy', proxy_url: 'http://localhost:8081/api/v1' }
-          : { name: 'github', repo: 'felileivas/felileivas.github.io', branch: 'main',
-              base_url: 'https://api.netlify.com', site_domain: 'symphonious-taiyaki-0782c0.netlify.app' },
-        media_folder: 'public/images/blog',
-        public_folder: '/images/blog',
-        collections: [{
-          name: 'blog',
-          label: 'Blog Posts',
-          folder: 'src/content/blog',
-          create: true,
-          slug: '{{slug}}',
-          extension: 'md',
-          format: 'frontmatter',
-          fields: [
-            { label: 'Título', name: 'title', widget: 'string' },
-            { label: 'Fecha', name: 'date', widget: 'datetime' },
-            { label: 'Descripción SEO', name: 'description', widget: 'string' },
-            { label: 'Tags', name: 'tags', widget: 'list', default: ['blog'] },
-            { label: 'Imagen', name: 'image', widget: 'image', required: false },
-            { label: 'Contenido', name: 'body', widget: 'markdown' }
-          ]
-        }]
-      }
-    });
+    // Only override config for local development
+    if (window.CMS_MANUAL_INIT) {
+      CMS.init({
+        config: {
+          locale: 'es',
+          backend: { name: 'proxy', proxy_url: 'http://localhost:8081/api/v1' },
+          media_folder: 'public/images/blog',
+          public_folder: '/images/blog',
+          collections: [{
+            name: 'blog',
+            label: 'Blog Posts',
+            folder: 'src/content/blog',
+            create: true,
+            slug: '{{slug}}',
+            extension: 'md',
+            format: 'frontmatter',
+            fields: [
+              { label: 'Título', name: 'title', widget: 'string' },
+              { label: 'Fecha', name: 'date', widget: 'datetime' },
+              { label: 'Descripción SEO', name: 'description', widget: 'string' },
+              { label: 'Tags', name: 'tags', widget: 'list', default: ['blog'] },
+              { label: 'Imagen', name: 'image', widget: 'image', required: false },
+              { label: 'Contenido', name: 'body', widget: 'markdown' }
+            ]
+          }]
+        }
+      });
+    }
+    // In production: Decap loads config.yml automatically (github backend + Netlify OAuth)
   </script>
 </body>
 </html>
