@@ -20,7 +20,7 @@
         backend: isLocal
           ? { name: 'proxy', proxy_url: 'http://localhost:8081/api/v1' }
           : { name: 'github', repo: 'felileivas/felileivas.github.io', branch: 'main',
-              base_url: 'https://api.netlify.com' },
+              base_url: 'https://api.netlify.com', site_domain: 'symphonious-taiyaki-0782c0.netlify.app' },
         media_folder: 'public/images/blog',
         public_folder: '/images/blog',
         collections: [{
