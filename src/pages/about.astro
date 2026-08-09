@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Base.astro';
+---
+
+<Layout title="Sobre Nosotros" description="Conoce a TICRAFT: desarrollo de software, ciencia de datos y arquitectura cloud.">
+  <section class="about-hero">
+    <h1>Sobre <span class="accent">TICRAFT</span></h1>
+    <p class="tagline">Tecnología con maestría. Soluciones con propósito.</p>
+  </section>
+
+  <section class="about-content">
+    <div class="about-block">
+      <h2>🚀 Quiénes Somos</h2>
+      <p>
+        TICRAFT es una consultora de tecnología fundada por <strong>Felipe Leiva</strong>, enfocada en construir
+        soluciones de software escalables, seguras y de alto rendimiento. Combinamos la precisión de la ingeniería
+        con la creatividad del artesano digital.
+      </p>
+      <p>
+        El nombre nace de <strong>TI</strong> (Tecnología de la Información) + <strong>Craft</strong> (artesanía):
+        aplicar tecnología con maestría, con la precisión y el cuidado de un artesano.
+      </p>
+    </div>
+
+    <div class="about-block">
+      <h2>🏗 Nuestros Pilares</h2>
+      <div class="pillars-grid">
+        <div class="pillar">
+          <h3>💻 Desarrollo de Software</h3>
+          <p>Código limpio, metodologías ágiles y herramientas modernas. Python, Django, APIs REST, y más.</p>
+        </div>
+        <div class="pillar">
+          <h3>📊 Ciencia de Datos</h3>
+          <p>Análisis de datos para generar información accionable, optimizar procesos y mejorar decisiones.</p>
+        </div>
+        <div class="pillar">
+          <h3>☁️ Arquitectura Cloud</h3>
+          <p>Diseño de infraestructura en AWS optimizada para escalabilidad, disponibilidad y costos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-block">
+      <h2>🛠 Filosofía</h2>
+      <ul class="philosophy-list">
+        <li><strong>Código limpio y documentado</strong> — estándares que hacen el código mantenible.</li>
+        <li><strong>Automatización primero</strong> — CI/CD, IaC, eliminación de procesos manuales.</li>
+        <li><strong>Arquitectura escalable</strong> — sistemas que crecen con la demanda.</li>
+        <li><strong>Seguridad desde el diseño</strong> — no es un extra, es un requisito.</li>
+      </ul>
+    </div>
+
+    <div class="about-block">
+      <h2>📌 Contacto</h2>
+      <p>¿Interesado en colaborar o saber más sobre nuestros proyectos?</p>
+      <div class="contact-links">
+        <a href="mailto:felipe@ticraft.cl" class="contact-btn">✉️ felipe@ticraft.cl</a>
+        <a href="https://github.com/felileivas" target="_blank" rel="noopener" class="contact-btn">🐙 GitHub</a>
+        <a href="https://www.linkedin.com/in/felipeleivas/" target="_blank" rel="noopener" class="contact-btn">💼 LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+  }
+
+  .about-hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .accent {
+    color: var(--color-accent);
+  }
+
+  .tagline {
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+  }
+
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .about-block {
+    margin-bottom: 3rem;
+  }
+
+  .about-block h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-block p {
+    color: var(--color-text);
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+
+  .pillar {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.2rem;
+  }
+
+  .pillar h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .philosophy-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .philosophy-list li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+
+  .philosophy-list li:last-child {
+    border-bottom: none;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .contact-btn {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+  }
+
+  .contact-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+</style>

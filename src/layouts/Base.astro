@@ -1,0 +1,238 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'TICRAFT - Innovación en Software y Arquitectura Cloud' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="author" content="Felipe Leiva" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <title>{title} | TICRAFT</title>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">TICRAFT<span class="accent">.CL</span></a>
+    <div class="nav-links">
+      <a href="/#servicios">Servicios</a>
+      <a href="/blog">Blog</a>
+      <a href="mailto:contacto@ticraft.cl" class="btn-contact">Contáctanos</a>
+    </div>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <a href="/" class="footer-logo">TICRAFT<span class="accent">.CL</span></a>
+      <div class="footer-links">
+        <a href="/#servicios">Servicios</a>
+        <a href="/blog">Blog</a>
+        <a href="mailto:contacto@ticraft.cl">Contacto</a>
+      </div>
+      <p class="footer-copy">© 2025 TICRAFT.CL | Todos los derechos reservados</p>
+      <a href="mailto:contacto@ticraft.cl" class="footer-email">contacto@ticraft.cl</a>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --color-bg: #111827;
+    --color-surface-glass: rgba(255, 255, 255, 0.1);
+    --color-border-glass: rgba(255, 255, 255, 0.2);
+    --color-text: #ffffff;
+    --color-text-muted: #d1d5db;
+    --color-text-secondary: #9ca3af;
+    --color-accent-blue: #3b82f6;
+    --color-accent-indigo: #4f46e5;
+    --color-accent-green: #10b981;
+    --font-body: 'Inter', sans-serif;
+    --font-display: 'Orbitron', sans-serif;
+    --glass-blur: 12px;
+    --glass-blur-heavy: 16px;
+    --radius: 13px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+
+  a {
+    color: var(--color-accent-blue);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  a:hover {
+    color: #60a5fa;
+  }
+
+  /* Navbar - Glass */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: 1px;
+  }
+
+  .logo .accent {
+    color: var(--color-accent-blue);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--color-text-muted);
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+
+  .nav-links a:hover {
+    color: var(--color-text);
+  }
+
+  .btn-contact {
+    background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-indigo));
+    color: white !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-contact:hover {
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    transform: scale(1.05);
+    color: white !important;
+  }
+
+  main {
+    margin-top: 0;
+    padding-top: 4.5rem; /* Offset for fixed navbar (~72px) */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Landing hero is fullscreen, so it handles its own spacing */
+  main:has(.hero) {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem 2rem;
+    background: rgba(17, 24, 39, 0.9);
+  }
+
+  .footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-links a {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-text);
+  }
+
+  .footer-copy {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-email {
+    color: var(--color-accent-blue);
+    font-size: 0.85rem;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 0.75rem 1rem;
+    }
+    .nav-links {
+      gap: 1rem;
+    }
+    .nav-links a:not(.btn-contact) {
+      display: none;
+    }
+  }
+</style>
