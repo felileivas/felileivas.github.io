@@ -1,0 +1,82 @@
+/* Fuentes alojadas en el sitio (subconjunto latin, OFL): sin conexiones extra a Google en la ruta crítica. */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400 700; font-display: swap; src: url("/assets/fonts/inter-latin.woff2") format("woff2"); }
+@font-face { font-family: "Orbitron"; font-style: normal; font-weight: 700; font-display: swap; src: url("/assets/fonts/orbitron-latin-700.woff2") format("woff2"); }
+
+/* TICRAFT shared styles */
+:root {
+  color-scheme: dark;
+  --color-bg: #111827;
+  --color-surface-glass: rgba(255, 255, 255, .1);
+  --color-border-glass: rgba(255, 255, 255, .2);
+  --color-text: #ffffff;
+  --color-text-muted: #d1d5db;
+  --color-text-secondary: #9ca3af;
+  --color-accent-blue: #3b82f6;
+  --color-accent-indigo: #4f46e5;
+  --color-accent-green: #10b981;
+  --font-body: "Inter", sans-serif;
+  --font-display: "Orbitron", sans-serif;
+  --glass-blur: 12px;
+  --glass-blur-heavy: 16px;
+  --radius: 13px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); line-height: 1.6; }
+body { font-size-adjust: from-font; }
+a { color: var(--color-accent-blue); text-decoration: none; }
+a:hover { color: #60a5fa; }
+:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+
+.navbar {
+  align-items: center;
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  background: #111827cc;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  padding: 1rem 2rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
+.logo, .footer-logo { color: var(--color-text); font-family: var(--font-display); font-weight: 700; letter-spacing: 1px; }
+.logo { font-size: 1.4rem; }
+.logo .accent, .footer-logo .accent { color: var(--color-accent-blue); }
+.nav-toggle { display: none; }
+.nav-links { align-items: center; display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--color-text-muted); font-size: .9rem; font-weight: 400; }
+.nav-links a:hover { color: var(--color-text); }
+.nav-links a[aria-current="page"] { color: #fff; text-decoration: underline; text-underline-offset: .35em; }
+.btn-contact { background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-indigo)); border-radius: 8px; color: #fff !important; font-size: .9rem; font-weight: 500; padding: .6rem 1.2rem; }
+main { margin: 0 auto; max-width: 1100px; padding: 4.5rem 1.5rem 0; }
+main:has(.hero) { max-width: none; padding: 0; }
+footer { background: #111827e6; border-top: 1px solid rgba(255, 255, 255, .1); padding: 3rem 2rem; }
+.footer-content { margin: 0 auto; max-width: 1100px; text-align: center; }
+.footer-logo { display: block; font-size: 1.2rem; margin-bottom: 1rem; }
+.footer-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 1.5rem; }
+.footer-links a { color: var(--color-text-secondary); font-size: .9rem; }
+.footer-links a:hover { color: var(--color-text); }
+.footer-copy { color: var(--color-text-secondary); font-size: .8rem; margin-bottom: .5rem; }
+.footer-email { color: var(--color-accent-blue); font-size: .85rem; }
+
+@media (max-width: 767px) {
+  .navbar { padding: .75rem 1rem; }
+  .nav-toggle { background: transparent; border: 1px solid var(--color-border-glass); border-radius: 8px; color: var(--color-text); display: inline-flex; font: inherit; padding: .5rem .75rem; }
+  .nav-links { align-items: stretch; background: #111827; border: 1px solid var(--color-border-glass); border-radius: 12px; flex-direction: column; gap: 1rem; inset: 4.5rem 1rem auto auto; margin: 0; padding: 1rem; }
+  .nav-links:not(:popover-open) { display: none; }
+  .nav-links:popover-open { display: flex; }
+  .footer-links { flex-wrap: wrap; gap: 1rem; }
+}
+@media (min-width: 768px) {
+  /* anula los estilos por defecto de [popover] (fixed, centrado, borde, fondo) en escritorio */
+  .nav-links { display: flex !important; position: static; inset: auto; margin: 0; padding: 0; border: 0; background: none; color: inherit; overflow: visible; width: auto; height: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  a, .btn-contact { transition: color .3s ease, background-color .3s ease, transform .3s ease, box-shadow .3s ease; }
+  .btn-contact:hover { box-shadow: 0 4px 20px #3b82f666; transform: scale(1.05); }
+}
