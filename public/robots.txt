@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ticraft.cl/sitemap-index.xml

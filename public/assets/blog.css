@@ -1,0 +1,72 @@
+/* Blog page styles */
+.blog-header {
+  margin-bottom: 3rem;
+}
+.blog-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: .5rem;
+}
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
+.posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.post-card {
+  background: #ffffff1a;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 13px;
+  padding: 1.5rem;
+}
+.post-card a {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+.post-card time {
+  color: var(--color-text-muted);
+  font-size: .85rem;
+}
+.post-card h2 {
+  color: var(--color-text);
+  font-size: 1.4rem;
+  margin: .5rem 0;
+}
+.post-card p {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+.tag {
+  background: #3fb9501a;
+  border: 1px solid rgba(63,185,80,.3);
+  border-radius: 4px;
+  color: #3fb950 /* la variable --color-accent no existe en el sitio */;
+  font-size: .75rem;
+  padding: .2rem .6rem;
+}
+.card-icon svg {
+  height: 1.8rem;
+  width: 1.8rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .post-card {
+    transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+  }
+  .post-card:hover {
+    background: #ffffff26;
+    border-color: #3b82f666;
+    box-shadow: 0 8px 32px #3b82f626;
+    transform: translateY(-2px);
+  }
+}

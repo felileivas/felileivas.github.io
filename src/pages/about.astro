@@ -158,11 +158,14 @@ import Layout from '../layouts/Base.astro';
     border-radius: 6px;
     color: var(--color-text);
     font-size: 0.9rem;
-    transition: border-color 0.2s;
   }
 
   .contact-btn:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .contact-btn { transition: border-color 0.2s; }
   }
 </style>
